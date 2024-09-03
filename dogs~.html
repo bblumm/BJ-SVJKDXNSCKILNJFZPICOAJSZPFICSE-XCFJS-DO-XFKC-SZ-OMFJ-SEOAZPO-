@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Градиентный фон</title>
+    <style>
+        @font-face {
+            font-family: 'Cannonade';
+            src: url('Cannonade.ttf') format('truetype');
+        }
+        body {
+            margin: 0;
+            height: 100vh;
+            background: 
+                linear-gradient(to bottom, rgba(4, 107, 226, 0.8), rgba(30, 137, 214, 0.8)), /* Градиент */
+                url('zz2.png') no-repeat center center fixed; /* Фоновое изображение */
+            background-size: cover; /* Заполнение фона изображением */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Центрирование по горизонтали */
+            justify-content: center; /* Центрирование по вертикали */
+            color: white;
+            font-family: 'Rocks', Arial, sans-serif;
+            overflow: hidden; /* Скрываем полосы прокрутки */
+        }
+        h1 {
+            margin: 0; /* Убираем отступы */
+            text-align: center; /* Центрирование текста */
+        }
+        img {
+            display: block; /* Сделать изображение блочным элементом */
+            margin: 20px auto; /* Центрирование изображения */
+            max-width: 100%;
+            height: auto;
+            cursor: pointer; /* Курсор при наведении */
+            position: relative;
+            transition: opacity 0.5s ease; /* Добавляем плавную анимацию */
+        }
+        .smaller { /* Класс для уменьшения размера */
+            transform: scale(0.5); /* Изменяем размер изображения в два раза */
+        }
+        button {
+            margin-top: 20px; /* Отступ сверху для кнопки */
+            padding: 15px 30px; /* Отступы внутри кнопки */
+            font-size: 16px; /* Размер шрифта */
+            color: white; /* Цвет текста */
+            background-color: rgb(4, 107, 226); /* Цвет фона кнопки */
+            border: none; /* Убираем рамку */
+            border-radius: 10px; /* Более закругленные углы */
+            cursor: pointer; /* Курсор при наведении */
+            font-family: 'Cannonade', Arial, sans-serif; /* Шрифт для кнопки */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Добавляем плавную анимацию для цвета */
+        }
+        button:hover {
+            background-color: rgb(30, 137, 214); /* Цвет при наведении */
+        }
+
+        @keyframes scroll {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0; /* Скрыть изображение */
+            }
+            100% {
+                opacity: 1; /* Показать новое изображение */
+            }
+        }
+
+        .scroll {
+            animation: scroll 0.5s ease; /* Применяем анимацию */
+        }
+    </style>
+</head>
+<body>
+    <h1>Hi, this is a demo version of our HFT-Stickers</h1>
+    <img src="wow1.png" alt="Dogs Stick" id="dogImage" class="scroll">
+    <button id="stickerButton">GO RANDOM STICKERS</button>
+
+    <script>
+        const dogImage = document.getElementById('dogImage');
+        const stickerButton = document.getElementById('stickerButton');
+
+        const images = [
+            'wow1.png',
+            'wow2.png',
+            'wow3.png',
+            'wow4.png',
+            'wow5.png',
+            'wow6.png',
+            'wow7.png',
+            'wow8.png',
+            'wow9.png',
+            'wow10.png',
+            'wow11.png',
+            'wow12.png',
+            'wow13.png'
+        ];
+
+        let currentIndex = 0; // Индекс текущего изображения
+        let intervalId; // Переменная для хранения ID интервала
+
+        function changeImage() {
+            // Устанавливаем текущее изображение
+            dogImage.src = images[currentIndex];
+
+            // Проверяем, нужно ли уменьшать изображение
+            if (currentIndex === 0 || (currentIndex >= 1 && currentIndex <= 12)) { 
+                dogImage.classList.add('smaller'); 
+            } else {
+                dogImage.classList.remove('smaller');
+            }
+
+            // Запустить анимацию прокрутки
+            dogImage.classList.add('scroll');
+
+            // Подождать, пока анимация завершится, затем повысить индекс
+            setTimeout(function() {
+                dogImage.classList.remove('scroll'); // Убрать класс анимации
+            }, 500); // Время анимации
+
+            // Увеличиваем индекс
+            currentIndex++;
+
+            // Если индекс превышает длину массива, сбрасываем его
+            if (currentIndex >= images.length) {
+                currentIndex = 0;
+            }
+        }
+
+        stickerButton.addEventListener('click', function() {
+            // Изменение текста и цвета кнопки
+            stickerButton.textContent = 'STICKERS GENERATION';
+            stickerButton.style.backgroundColor = 'grey';
+            
+            // Смена изображения и запуск интервала
+            currentIndex = 0; 
+            changeImage(); 
+            intervalId = setInterval(changeImage, 90); // Сохраняем ID интервала
+
+            // Изменение текста и цвета кнопки через 6 секунд
+            setTimeout(function() {
+                stickerButton.textContent = 'CONNECT WALLET';
+                stickerButton.style.backgroundColor = 'rgb(4, 107, 226)';
+
+                // Остановка интервала, но не показ рандомной картинки
+                clearInterval(intervalId); // Останавливаем интервал
+                currentIndex = Math.floor(Math.random() * images.length); // Генерируем рандомный индекс
+                 changeImage(); // Отображаем рандомную картинку
+            }, 6000); 
+        });
+    </script>
+
+</body>
+</html>
