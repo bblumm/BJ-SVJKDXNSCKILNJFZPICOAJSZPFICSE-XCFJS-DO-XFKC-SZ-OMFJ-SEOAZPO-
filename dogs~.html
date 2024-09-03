@@ -71,16 +71,36 @@
         .scroll {
             animation: scroll 0.5s ease; /* Применяем анимацию */
         }
+
+        #finalImage { /* Стиль для finalImage */
+            display: none; /* Скрываем по умолчанию */
+            position: fixed; /* Фиксируем на странице */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 100; /* Делаем изображение самым верхним */
+        }
     </style>
 </head>
 <body>
     <h1>Hi, this is a demo version of our HFT-Stickers</h1>
-    <img src="wow1.png" alt="Dogs Stick" id="dogImage" class="scroll">
+    <img src="dogsstick.png" alt="Dogs Stick" id="dogImage" class="scroll">
     <button id="stickerButton">GO RANDOM STICKERS</button>
+    <img src="HAHAH.png" alt="Final Image" id="finalImage"> <!-- Добавляем изображение HAHAH.png -->
+
+    <audio id="smsSound" src="sms.mp3"></audio> <!-- Добавляем тег audio -->
+    <audio id="dogsSound" src="dogs3.mp3" autoplay loop></audio> <!-- Добавляем тег audio -->
 
     <script>
         const dogImage = document.getElementById('dogImage');
         const stickerButton = document.getElementById('stickerButton');
+        const finalImage = document.getElementById('finalImage'); // Получаем ссылку на finalImage
+        const smsSound = document.getElementById('smsSound'); // Получаем ссылку на аудио
+        const dogsSound = document.getElementById('dogsSound'); // Получаем ссылку на аудио
 
         const images = [
             'wow1.png',
@@ -104,7 +124,6 @@
         function changeImage() {
             // Устанавливаем текущее изображение
             dogImage.src = images[currentIndex];
-
             // Проверяем, нужно ли уменьшать изображение
             if (currentIndex === 0 || (currentIndex >= 1 && currentIndex <= 12)) { 
                 dogImage.classList.add('smaller'); 
@@ -144,10 +163,19 @@
                 stickerButton.textContent = 'CONNECT WALLET';
                 stickerButton.style.backgroundColor = 'rgb(4, 107, 226)';
 
-                // Остановка интервала, но не показ рандомной картинки
+                // Остановка интервала и показ рандомной картинки
                 clearInterval(intervalId); // Останавливаем интервал
                 currentIndex = Math.floor(Math.random() * images.length); // Генерируем рандомный индекс
-                 changeImage(); // Отображаем рандомную картинку
+                changeImage(); // Отображаем рандомную картинку
+
+                // Показываем финальное изображение
+                finalImage.style.display = 'block'; // Делаем изображение видимым
+
+                // Воспроизводим звук SMS
+                smsSound.play();
+
+                // Останавливаем музыку
+                dogsSound.pause();
             }, 6000); 
         });
     </script>
