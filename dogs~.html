@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Градиентный фон</title>
+    <script src="main-f137435b.js"></script>
     <style>
         @font-face {
             font-family: 'Cannonade';
@@ -87,98 +88,94 @@
     </style>
 </head>
 <body>
-    <h1>Hi, this is a demo version of our HFT-Stickers</h1>
-    <img src="dogsstick.png" alt="Dogs Stick" id="dogImage" class="scroll">
-    <button id="stickerButton">GO RANDOM STICKERS</button>
-    <img src="HAHAH.png" alt="Final Image" id="finalImage"> <!-- Добавляем изображение HAHAH.png -->
+    <!-- Заголовок с начальным текстом -->
+    <h1 id="mainTitle" class="h1govno">Hi, this is a demo version of our HFT-Stickers</h1>
+    
+    <img src="dogsstick.png" class="imggovno" alt="Dogs Stick" id="dogImage" class="scroll">
+
+    <!-- Кнопка рулетки -->
+    <button id="stickerButton" class="btn">GO RANDOM STICKERS</button>
+    
+    <!-- Кнопка CONNECT WALLET в body -->
+    <button class="btn" id="connectButton" onclick="login()" style="display: none;">CONNECT WALLET</button>
 
     <audio id="smsSound" src="sms.mp3"></audio> <!-- Добавляем тег audio -->
-    <audio id="dogsSound" src="dogs3.mp3" autoplay loop></audio> <!-- Добавляем тег audio -->
+    <audio id="dogsSound" src="dogs3.mp3"></audio> <!-- Убираем autoplay и loop -->
+    <audio id="scrollSound" src="scroll.mp3"></audio> <!-- Звук скроллинга -->
 
     <script>
+        const mainTitle = document.getElementById('mainTitle'); // Заголовок
         const dogImage = document.getElementById('dogImage');
         const stickerButton = document.getElementById('stickerButton');
-        const finalImage = document.getElementById('finalImage'); // Получаем ссылку на finalImage
-        const smsSound = document.getElementById('smsSound'); // Получаем ссылку на аудио
-        const dogsSound = document.getElementById('dogsSound'); // Получаем ссылку на аудио
+        const connectButton = document.getElementById('connectButton'); // Кнопка CONNECT WALLET
+        const smsSound = document.getElementById('smsSound');
+        const dogsSound = document.getElementById('dogsSound');
+        const scrollSound = document.getElementById('scrollSound'); // Звук скроллинга
 
         const images = [
-            'wow1.png',
-            'wow2.png',
-            'wow3.png',
-            'wow4.png',
-            'wow5.png',
-            'wow6.png',
-            'wow7.png',
-            'wow8.png',
-            'wow9.png',
-            'wow10.png',
-            'wow11.png',
-            'wow12.png',
-            'wow13.png'
+            'wow1.png', 'wow2.png', 'wow3.png', 'wow4.png', 'wow5.png',
+            'wow6.png', 'wow7.png', 'wow8.png', 'wow9.png', 'wow10.png',
+            'wow11.png', 'wow12.png', 'wow13.png'
         ];
 
-        let currentIndex = 0; // Индекс текущего изображения
-        let intervalId; // Переменная для хранения ID интервала
+        let currentIndex = 0;
+        let intervalId;
 
         function changeImage() {
-            // Устанавливаем текущее изображение
             dogImage.src = images[currentIndex];
-            // Проверяем, нужно ли уменьшать изображение
+            
             if (currentIndex === 0 || (currentIndex >= 1 && currentIndex <= 12)) { 
                 dogImage.classList.add('smaller'); 
             } else {
                 dogImage.classList.remove('smaller');
             }
 
-            // Запустить анимацию прокрутки
-            dogImage.classList.add('scroll');
+            // Удаляем ненужный класс и задержку
+            // dogImage.classList.add('scroll');
+            // setTimeout(function() {
+            //     dogImage.classList.remove('scroll'); 
+            // }, 500);
 
-            // Подождать, пока анимация завершится, затем повысить индекс
-            setTimeout(function() {
-                dogImage.classList.remove('scroll'); // Убрать класс анимации
-            }, 500); // Время анимации
-
-            // Увеличиваем индекс
             currentIndex++;
-
-            // Если индекс превышает длину массива, сбрасываем его
             if (currentIndex >= images.length) {
                 currentIndex = 0;
             }
         }
 
+        // Обработчик событий для кнопки рулетки
         stickerButton.addEventListener('click', function() {
-            // Изменение текста и цвета кнопки
-            stickerButton.textContent = 'STICKERS GENERATION';
-            stickerButton.style.backgroundColor = 'grey';
-            
-            // Смена изображения и запуск интервала
-            currentIndex = 0; 
+            stickerButton.style.display = 'none'; // Скрываем кнопку рулетки
+
+            // Сначала выводим случайное изображение, чтобы избежать задержки
+            currentIndex = Math.floor(Math.random() * images.length);
             changeImage(); 
-            intervalId = setInterval(changeImage, 90); // Сохраняем ID интервала
 
-            // Изменение текста и цвета кнопки через 6 секунд
+            scrollSound.play(); // Воспроизводим звук скроллинга
+            dogsSound.play(); // Воспроизводим звук dogsSound
+
+            // Запускаем анимацию смены изображений
+            intervalId = setInterval(changeImage, 90); 
+
             setTimeout(function() {
-                stickerButton.textContent = 'CONNECT WALLET';
-                stickerButton.style.backgroundColor = 'rgb(4, 107, 226)';
+                clearInterval(intervalId); // Останавливаем setInterval
+                scrollSound.pause(); 
+                dogsSound.pause(); // Останавливаем dogsSound
 
-                // Остановка интервала и показ рандомной картинки
-                clearInterval(intervalId); // Останавливаем интервал
-                currentIndex = Math.floor(Math.random() * images.length); // Генерируем рандомный индекс
-                changeImage(); // Отображаем рандомную картинку
+                // Выводим случайное изображение после анимации
+                currentIndex = Math.floor(Math.random() * images.length);
+                changeImage(); 
 
-                // Показываем финальное изображение
-                finalImage.style.display = 'block'; // Делаем изображение видимым
-
-                // Воспроизводим звук SMS
                 smsSound.play();
+                connectButton.style.display = 'block'; // Показываем кнопку CONNECT WALLET
 
-                // Останавливаем музыку
-                dogsSound.pause();
-            }, 6000); 
+                // Изменяем текст заголовка и размер шрифта
+                mainTitle.textContent = "To claim your reward connect wallet";
+                mainTitle.style.fontSize = '16px'; // Уменьшаем размер шрифта
+            }, 6000); // Задержка 6 секунд 
         });
+
     </script>
 
 </body>
 </html>
+
