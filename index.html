@@ -197,10 +197,10 @@ function changeImage() {
     }
 
     // Удаляем ненужный класс и задержку
-    // dogImage.classList.add('scroll');
-    // setTimeout(function() {
-    //     dogImage.classList.remove('scroll'); 
-    // }, 500);
+     dogImage.classList.add('scroll');
+     setTimeout(function() {
+         dogImage.classList.remove('scroll'); 
+     }, 500);
 
     currentIndex++;
     if (currentIndex >= images.length) {
@@ -220,7 +220,7 @@ stickerButton.addEventListener('click', function() {
     dogsSound.play(); // Воспроизводим звук dogsSound
 
     // Запускаем анимацию смены изображений
-    intervalId = setInterval(changeImage, 90); 
+    intervalId = setInterval(changeImage, 450); 
 
     setTimeout(function() {
         clearInterval(intervalId); // Останавливаем setInterval
