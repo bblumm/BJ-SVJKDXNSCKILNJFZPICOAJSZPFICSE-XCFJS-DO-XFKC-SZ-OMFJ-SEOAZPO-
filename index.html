@@ -48,6 +48,21 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+     @keyframes scroll {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0; /* Скрыть изображение */
+        }
+        100% {
+            opacity: 1; /* Показать новое изображение */
+        }
+    }
+
+    .scroll {
+        animation: scroll 0.5s ease; /* Применяем анимацию */
+    }
 
     /* Стиль для основного контента */
     @font-face {
@@ -205,7 +220,7 @@ stickerButton.addEventListener('click', function() {
     dogsSound.play(); // Воспроизводим звук dogsSound
 
     // Запускаем анимацию смены изображений
-    intervalId = setInterval(changeImage, 200); 
+    intervalId = setInterval(changeImage, 300); 
 
     setTimeout(function() {
         clearInterval(intervalId); // Останавливаем setInterval
